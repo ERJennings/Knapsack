@@ -25,7 +25,7 @@ public class Knapsack {
         //Initialize all values to -1;
         for (int i = 1; i < F.length; i++) {
             for (int j = 1; j < F[0].length; j++) {
-                F[i][j] = 0;
+                F[i][j] = -1;
             }
         }
 
@@ -35,6 +35,12 @@ public class Knapsack {
             enteredNumber = input.nextLine();
             weights[i] = Integer.parseInt(enteredNumber);
         }
+
+//        for (int i = 0; i < F.length; i++) {
+//            for (int j = 0; j < F[0].length; j++) {
+//                System.out.print(F[i][j] + " ");
+//            }
+//        }
 
         //Get values
         for (int i = 0; i < numItems; i++) {
@@ -47,13 +53,15 @@ public class Knapsack {
         System.out.print("The maximum possible value is " + maxValue);
     }
     public static int MFKnapsack(int i, int j) {
+        int value;
         if (F[i][j] < 0) {
-            if (j < weights[i]) {
-                F[i][j] = MFKnapsack(i-1,j);
+            if (j < weights[i-1]) {
+                value = MFKnapsack(i-1,j);
             }
             else {
-                F[i][j] = Math.max(MFKnapsack(i-1,j), values[i] + MFKnapsack(i-1,j-weights[i]));
+                value = Math.max(MFKnapsack(i-1,j), values[i-1] + MFKnapsack(i-1,j-weights[i-1]));
             }
+            F[i][j] = value;
         }
         return F[i][j];
     }

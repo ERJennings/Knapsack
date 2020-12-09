@@ -16,10 +16,15 @@ public class Knapsack {
         weights = new int[numItems];
         values = new int[numItems];
 
-        F = new int[numItems][numItems+1];
+        //Get capacity
+        System.out.println("Enter the capacity: ");
+        enteredNumber = input.nextLine();
+        int capacity = Integer.parseInt(enteredNumber);
+
+        F = new int[numItems+1][capacity+1];
         //Initialize all values to -1;
-        for (int i = 0; i < F.length; i++) {
-            for (int j = 0; j < F[0].length; i++) {
+        for (int i = 1; i < F.length; i++) {
+            for (int j = 1; j < F[0].length; j++) {
                 F[i][j] = 0;
             }
         }
@@ -38,20 +43,18 @@ public class Knapsack {
             values[i] = Integer.parseInt(enteredNumber);
         }
 
-        int maxValue = MFKnapsack(0,0);
-        System.out.print("The maximum possible vlue is " + maxValue);
+        int maxValue = MFKnapsack(numItems,capacity);
+        System.out.print("The maximum possible value is " + maxValue);
     }
     public static int MFKnapsack(int i, int j) {
-        int value = -1;
         if (F[i][j] < 0) {
             if (j < weights[i]) {
-                value = MFKnapsack(i-1,j);
+                F[i][j] = MFKnapsack(i-1,j);
             }
             else {
-                value = Math.max(MFKnapsack(i-1,j), values[i] + MFKnapsack(i-1,j-weights[i]));
+                F[i][j] = Math.max(MFKnapsack(i-1,j), values[i] + MFKnapsack(i-1,j-weights[i]));
             }
         }
-        F[i][j] = value;
         return F[i][j];
     }
 }

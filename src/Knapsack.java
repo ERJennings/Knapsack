@@ -1,3 +1,9 @@
+/**
+ * @author Eric Jennings
+ * @version 12/9/2020
+ * CPSC 420 Final Project, MFKnapsack algorithm
+ */
+
 import java.util.Scanner;
 
 public class Knapsack {
@@ -21,8 +27,8 @@ public class Knapsack {
         enteredNumber = input.nextLine();
         int capacity = Integer.parseInt(enteredNumber);
 
+        //Initialize F
         F = new int[numItems+1][capacity+1];
-        //Initialize all values to -1;
         for (int i = 1; i < F.length; i++) {
             for (int j = 1; j < F[0].length; j++) {
                 F[i][j] = -1;
@@ -36,12 +42,6 @@ public class Knapsack {
             weights[i] = Integer.parseInt(enteredNumber);
         }
 
-//        for (int i = 0; i < F.length; i++) {
-//            for (int j = 0; j < F[0].length; j++) {
-//                System.out.print(F[i][j] + " ");
-//            }
-//        }
-
         //Get values
         for (int i = 0; i < numItems; i++) {
             System.out.println("What is the value of item " + (i+1) + "? ");
@@ -49,9 +49,11 @@ public class Knapsack {
             values[i] = Integer.parseInt(enteredNumber);
         }
 
+        //Begin the recursive section of the algorithm
         int maxValue = MFKnapsack(numItems,capacity);
         System.out.print("The maximum possible value is " + maxValue);
     }
+
     public static int MFKnapsack(int i, int j) {
         int value;
         if (F[i][j] < 0) {
@@ -59,7 +61,8 @@ public class Knapsack {
                 value = MFKnapsack(i-1,j);
             }
             else {
-                value = Math.max(MFKnapsack(i-1,j), values[i-1] + MFKnapsack(i-1,j-weights[i-1]));
+                value = Math.max(MFKnapsack(i-1,j), values[i-1]
+                        + MFKnapsack(i-1,j-weights[i-1]));
             }
             F[i][j] = value;
         }
